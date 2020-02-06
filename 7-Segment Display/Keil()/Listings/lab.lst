@@ -1,0 +1,146 @@
+C51 COMPILER V9.59.0.0   LAB                                                               10/22/2018 11:35:42 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE LAB
+OBJECT MODULE PLACED IN .\Objects\lab.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE lab.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\lab.l
+                    -st) TABS(2) OBJECT(.\Objects\lab.obj)
+
+line level    source
+
+   1          #include <AT89C51RB2.h>
+   2          //#include <REGX51.H>
+   3          #include <intrins.h>
+   4          
+   5          /*---------------------------------*/
+   6          #define P_DAT P0
+   7          #define P_STB P1
+   8          unsigned char idata position;
+   9          unsigned char idata print_line[5];//кількість розрядів індикатора
+  10          /*---------------------------------*/
+  11          #define segA  0x80
+  12          #define segB  0x04
+  13          #define segC  0x08
+  14          #define segD  0x10
+  15          #define segE  0x20
+  16          #define segF  0x40
+  17          #define segG  0x02
+  18          #define segH  0x01
+  19          
+  20          #define Digit0  segA|segB|segC|segD|segE|segF
+  21          #define Digit1  segB|segC
+  22          #define Digit2  segA|segB|segD|segE|segG
+  23          #define Digit3  segA|segB|segC|segD|segG
+  24          #define Digit4  segB|segC|segF|segG
+  25          #define Digit5  segA|segC|segD|segF|segG
+  26          #define Digit6  segA|segC|segD|segE|segF|segG
+  27          #define Digit7  segA|segB|segC
+  28          #define Digit8  segA|segB|segC|segD|segE|segF|segG
+  29          #define Digit9  segA|segB|segC|segD|segF|segG
+  30          
+  31          unsigned char code segm7[]={Digit0,Digit1,Digit2,Digit3,Digit4,Digit5,Digit6,Digit7,Digit8,Digit9};
+  32          /*---------------------------------*/
+  33          void init_UART(void);
+  34          void init_T0(void);
+  35          void delay(unsigned int n);
+  36          /*---------------------------------*/
+  37          void main(void)
+  38          {
+  39   1      init_UART();
+  40   1      init_T0();
+  41   1      print_line[0]=0;
+  42   1      print_line[1]=1;
+  43   1      print_line[2]=2;
+  44   1      print_line[3]=3;
+  45   1      print_line[4]=4;
+  46   1      EA=1;
+  47   1      while(1)
+  48   1        {
+  49   2        delay(200);
+  50   2        }
+  51   1      }
+  52          /*---------------------------------*/
+  53          void delay(unsigned int n)
+  54          {
+C51 COMPILER V9.59.0.0   LAB                                                               10/22/2018 11:35:42 PAGE 2   
+
+  55   1      unsigned int i,j;
+  56   1      for(j=0;j<n;j++)
+  57   1        for(i=0;i<0x200;i++);
+  58   1      }
+  59          /*---------------------------------*/
+  60          void init_UART(void)
+  61          {
+  62   1      SM0=0;//SCON.7//Біти вибору режиму роботи
+  63   1      SM1=1;//SCON.6//Біти вибору режиму роботи
+  64   1      SM2=0;//SCON.5//Біт блокування прийому повідомлень з нульовим пр
+             -ограмованим 9-тим бітом (діє тільки для режимів 2 та 3)
+  65   1      REN=1;//SCON.4//Дозвіл роботи приймача 
+  66   1      TB8=0;//SCON.3//9-тий біт даних, який передається в режимах 2 та 3
+  67   1      RB8=0;//SCON.2//9-тий прийнятий бід в режимах 2 та 3
+  68   1      TI=0;//SCON.1//Запит на переривання передавача. Встановлюється �
+             -�паратно після завершення передачі байту. Повинен скидатися прог�
+             -�амно в функції обробки переривання.
+  69   1      RI=0;//SCON.0//Запит на переривання приймача. Встановлюється ап�
+             -�ратно після завершення прийому байту. Повинен скидатися програм�
+             -�о в функції обробки переривання.
+  70   1      RCAP2L=0xB7;
+  71   1      RCAP2H=0xFF;
+  72   1      T2CON=0x34;
+  73   1      RI=0;
+  74   1      ES=1;
+  75   1      }
+  76          /*---------------------------------*/
+  77          void int_UART(void) interrupt 4
+  78          {
+  79   1      unsigned char k;
+  80   1      if(RI)
+  81   1        {
+  82   2        k=SBUF-'0';
+  83   2        if(k>9)k=9;
+  84   2        RI=0;
+  85   2        print_line[0]=print_line[1];
+  86   2        print_line[1]=print_line[2];
+  87   2        print_line[2]=print_line[3];
+  88   2        print_line[3]=print_line[4];
+  89   2        print_line[4]=k;
+  90   2        }
+  91   1      if(TI)TI=0;
+  92   1      }
+  93          /*---------------------------------*/
+  94          void init_T0(void)
+  95          {
+  96   1      TMOD=TMOD&0xF0;
+  97   1      TMOD=TMOD|0x01;
+  98   1      TH0=0x00;
+  99   1      ET0=1;
+ 100   1      TR0=1;
+ 101   1      }
+ 102          /*---------------------------------*/
+ 103          void int_T0(void) interrupt 1
+ 104          {
+ 105   1      TH0=0xFC;
+ 106   1      TL0=0;
+ 107   1      P_STB=0;
+ 108   1      P_DAT=segm7[print_line[position]]^0xFF;
+ 109   1      P_STB=(1<<position);
+ 110   1      position++;
+ 111   1      if(position==5)position=0;
+C51 COMPILER V9.59.0.0   LAB                                                               10/22/2018 11:35:42 PAGE 3   
+
+ 112   1      }
+ 113          /*---------------------------------*/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    254    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =      6    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

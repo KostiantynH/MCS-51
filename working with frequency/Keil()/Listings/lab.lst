@@ -1,0 +1,139 @@
+C51 COMPILER V9.59.0.0   LAB                                                               10/22/2018 11:23:58 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE LAB
+OBJECT MODULE PLACED IN .\Objects\lab.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE lab.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\lab.l
+                    -st) TABS(2) OBJECT(.\Objects\lab.obj)
+
+line level    source
+
+   1          #include <AT89C51RB2.h>
+   2          #include <intrins.h>//for taste - show getInfo from Terminal
+   3          #define Fclk  11059000
+   4          #define P_OUT P1_6
+   5          #define P_OUTT  P0//for taste - show getInfo from Terminal
+   6          
+   7          unsigned char freq=1;
+   8          unsigned int Time_nul;
+   9          unsigned int Time_one;
+  10          
+  11          void init_UART(void);
+  12          void init_T0(void);
+  13          void comp_THTL(unsigned char f);
+  14          /*---------------------------------*/
+  15          void main(void)
+  16          {
+  17   1      init_UART();
+  18   1      init_T0();
+  19   1      EA=1;
+  20   1      while(1);
+  21   1      }
+  22          /*---------------------------------*/
+  23          void init_UART(void)
+  24          {
+  25   1      SM0=0;//SCON.7//Біти вибору режиму роботи
+  26   1      SM1=1;//SCON.6//Біти вибору режиму роботи
+  27   1      SM2=0;//SCON.5//Біт блокування прийому повідомлень з нульовим пр
+             -ограмованим 9-тим бітом (діє тільки для режимів 2 та 3)
+  28   1      REN=1;//SCON.4//Дозвіл роботи приймача 
+  29   1      TB8=0;//SCON.3//9-тий біт даних, який передається в режимах 2 та 3
+  30   1      RB8=0;//SCON.2//9-тий прийнятий бід в режимах 2 та 3
+  31   1      TI=0;//SCON.1//Запит на переривання передавача. Встановлюється �
+             -�паратно після завершення передачі байту. Повинен скидатися прог�
+             -�амно в функції обробки переривання.
+  32   1      RI=0;//SCON.0//Запит на переривання приймача. Встановлюється ап�
+             -�ратно після завершення прийому байту. Повинен скидатися програм�
+             -�о в функції обробки переривання.
+  33   1      RCAP2L=0xB7;
+  34   1      RCAP2H=0xFF;
+  35   1      T2CON=0x34;
+  36   1      RI=0;
+  37   1      ES=1;
+  38   1      }
+  39          /*---------------------------------*/
+  40          void int_UART(void) interrupt 4
+  41          {
+  42   1        unsigned char k;
+  43   1        if(RI)
+  44   1          {
+  45   2            RI=0;
+  46   2            k=SBUF;     
+  47   2            if(k>='0' && k<='9' )
+  48   2              {
+  49   3              freq=k-'0';
+C51 COMPILER V9.59.0.0   LAB                                                               10/22/2018 11:23:58 PAGE 2   
+
+  50   3              P_OUTT=freq^0xff;//for taste - show getInfo from Terminal
+  51   3              comp_THTL(freq);
+  52   3              P2=0;//for taste - show getInfo from Terminalm 2
+  53   3              }  
+  54   2          }
+  55   1      
+  56   1        if(TI)TI=0;
+  57   1      }
+  58          /*---------------------------------*/
+  59          void init_T0(void)
+  60          {
+  61   1      unsigned int k;
+  62   1      
+  63   1      ET0=1;
+  64   1      TMOD &= 0XF0;                    /* clear Timer 0   */
+  65   1      TMOD |= 0X1;
+  66   1      comp_THTL(freq);
+  67   1      
+  68   1      P_OUT=0;
+  69   1      k=Time_nul;
+  70   1      TL0=k;
+  71   1      k=(k&0xFF00);
+  72   1      k>>=8;
+  73   1      TH0=k;
+  74   1      TR0=1;
+  75   1      }
+  76          /*---------------------------------*/
+  77          void int_T0(void) interrupt 1
+  78          {
+  79   1      unsigned int k;
+  80   1      TR0=0;
+  81   1      if(P_OUT)
+  82   1        {
+  83   2        P_OUT=0;
+  84   2        k=Time_nul;
+  85   2        }
+  86   1        else 
+  87   1          {
+  88   2        P_OUT=1;
+  89   2        k=Time_one;
+  90   2        }
+  91   1      TL0=k;
+  92   1      k=(k&0xFF00);
+  93   1      k>>=8;
+  94   1      TH0=k;
+  95   1      TR0=1;
+  96   1      }
+  97          /*---------------------------------*/
+  98          void comp_THTL(unsigned char f)
+  99          {
+ 100   1      float Period,Timer_tic;
+ 101   1      Period=1/(f*1e3);
+ 102   1      Timer_tic=Period*Fclk/12-0x3C;      //0x3C***
+ 103   1      Time_one=0xFFFF-Timer_tic/3;        //signal 1/3: _ _-_ _-
+ 104   1      Time_nul=0xFFFF-Timer_tic*2/3;
+ 105   1      }
+ 106          /*---------------------------------*/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    388    ----
+   CONSTANT SIZE    =   ----    ----
+C51 COMPILER V9.59.0.0   LAB                                                               10/22/2018 11:23:58 PAGE 3   
+
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

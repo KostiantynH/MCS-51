@@ -1,0 +1,309 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    10/22/2018  11:23:58  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\lab.obj TO .\Objects\lab2 PRINT (.\Listings\lab2.m51) RAMSI
+>> ZE (256)
+
+
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\lab.obj (LAB)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPADD)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPMUL)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPDIV)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FCAST)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?CASTF)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?LNEG)
+
+
+LINK MAP OF MODULE:  .\Objects\lab2 (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0010H     UNIT         _DATA_GROUP_
+            DATA    0018H     0005H     UNIT         ?DT?LAB
+            IDATA   001DH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     0015H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+                    0026H     07DAH                  *** GAP ***
+            CODE    0800H     036BH     UNIT         ?C?LIB_CODE
+            CODE    0B6BH     00B3H     UNIT         ?PR?_COMP_THTL?LAB
+            CODE    0C1EH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0CAAH     0060H     UNIT         ?PR?INT_UART?LAB
+            CODE    0D0AH     002EH     UNIT         ?PR?INT_T0?LAB
+            CODE    0D38H     001EH     UNIT         ?PR?INIT_UART?LAB
+            CODE    0D56H     001BH     UNIT         ?PR?INIT_T0?LAB
+            CODE    0D71H     000AH     UNIT         ?PR?MAIN?LAB
+            CODE    0D7BH     0004H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\lab2 (?C_STARTUP)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/22/2018  11:23:58  PAGE 2
+
+
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?LAB
+  +--> ?C_INITSEG
+
+?PR?MAIN?LAB                   -----    -----
+  +--> ?PR?INIT_UART?LAB
+  +--> ?PR?INIT_T0?LAB
+
+?PR?INIT_T0?LAB                -----    -----
+  +--> ?PR?_COMP_THTL?LAB
+
+?PR?_COMP_THTL?LAB             0010H    0008H
+
+*** NEW ROOT ***************************************************
+
+?PR?INT_UART?LAB               -----    -----
+  +--> ?PR?_COMP_THTL?LAB
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\lab2 (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0C1EH         SEGMENT       ?C_C51STARTUP
+  I:001DH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0C21H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0C1EH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0C1EH         LINE#         133
+  C:0C20H         LINE#         134
+  C:0C21H         LINE#         135
+  C:0C22H         LINE#         136
+  C:0C24H         LINE#         185
+  C:0C27H         LINE#         196
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/22/2018  11:23:58  PAGE 3
+
+
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        LAB
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  B:00A8H.7       PUBLIC        EA
+  B:0090H.6       PUBLIC        P1_6
+  B:00A8H.4       PUBLIC        ES
+  C:0D56H         PUBLIC        init_T0
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  D:00CBH         PUBLIC        RCAP2H
+  D:00CAH         PUBLIC        RCAP2L
+  C:0D71H         PUBLIC        main
+  D:0018H         PUBLIC        freq
+  C:0D0AH         PUBLIC        int_T0
+  D:0099H         PUBLIC        SBUF
+  D:0019H         PUBLIC        Time_one
+  D:0089H         PUBLIC        TMOD
+  D:001BH         PUBLIC        Time_nul
+  B:00A8H.1       PUBLIC        ET0
+  B:0098H.2       PUBLIC        RB8
+  D:008CH         PUBLIC        TH0
+  B:0098H.3       PUBLIC        TB8
+  C:0B6BH         PUBLIC        _comp_THTL
+  B:0098H.7       PUBLIC        SM0
+  D:008AH         PUBLIC        TL0
+  B:0098H.6       PUBLIC        SM1
+  B:0098H.5       PUBLIC        SM2
+  C:0D38H         PUBLIC        init_UART
+  B:0088H.4       PUBLIC        TR0
+  B:0098H.4       PUBLIC        REN
+  D:00C8H         PUBLIC        T2CON
+  C:0CAAH         PUBLIC        int_UART
+  -------         PROC          MAIN
+  C:0D71H         LINE#         15
+  C:0D71H         LINE#         16
+  C:0D71H         LINE#         17
+  C:0D74H         LINE#         18
+  C:0D77H         LINE#         19
+  C:0D79H         LINE#         20
+  -------         ENDPROC       MAIN
+  -------         PROC          INIT_UART
+  C:0D38H         LINE#         23
+  C:0D38H         LINE#         24
+  C:0D38H         LINE#         25
+  C:0D3AH         LINE#         26
+  C:0D3CH         LINE#         27
+  C:0D3EH         LINE#         28
+  C:0D40H         LINE#         29
+  C:0D42H         LINE#         30
+  C:0D44H         LINE#         31
+  C:0D46H         LINE#         32
+  C:0D48H         LINE#         33
+  C:0D4BH         LINE#         34
+  C:0D4EH         LINE#         35
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/22/2018  11:23:58  PAGE 4
+
+
+  C:0D51H         LINE#         36
+  C:0D53H         LINE#         37
+  C:0D55H         LINE#         38
+  -------         ENDPROC       INIT_UART
+  -------         PROC          INT_UART
+  -------         DO            
+  D:0007H         SYMBOL        k
+  -------         ENDDO         
+  C:0CAAH         LINE#         40
+  C:0CC7H         LINE#         43
+  C:0CCAH         LINE#         44
+  C:0CCAH         LINE#         45
+  C:0CCCH         LINE#         46
+  C:0CCEH         LINE#         47
+  C:0CDAH         LINE#         48
+  C:0CDAH         LINE#         49
+  C:0CDFH         LINE#         50
+  C:0CE2H         LINE#         51
+  C:0CE7H         LINE#         52
+  C:0CEAH         LINE#         53
+  C:0CEAH         LINE#         54
+  C:0CEAH         LINE#         56
+  C:0CEFH         LINE#         57
+  -------         ENDPROC       INT_UART
+  -------         PROC          INIT_T0
+  -------         DO            
+  D:0006H         SYMBOL        k
+  -------         ENDDO         
+  C:0D56H         LINE#         59
+  C:0D56H         LINE#         60
+  C:0D56H         LINE#         63
+  C:0D58H         LINE#         64
+  C:0D5BH         LINE#         65
+  C:0D5EH         LINE#         66
+  C:0D63H         LINE#         68
+  C:0D65H         LINE#         69
+  C:0D69H         LINE#         70
+  C:0D6BH         LINE#         71
+  C:0D6BH         LINE#         72
+  C:0D6CH         LINE#         73
+  C:0D6EH         LINE#         74
+  C:0D70H         LINE#         75
+  -------         ENDPROC       INIT_T0
+  -------         PROC          INT_T0
+  -------         DO            
+  D:0006H         SYMBOL        k
+  -------         ENDDO         
+  C:0D0AH         LINE#         77
+  C:0D15H         LINE#         80
+  C:0D17H         LINE#         81
+  C:0D1AH         LINE#         82
+  C:0D1AH         LINE#         83
+  C:0D1CH         LINE#         84
+  C:0D20H         LINE#         85
+  C:0D22H         LINE#         87
+  C:0D22H         LINE#         88
+  C:0D24H         LINE#         89
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/22/2018  11:23:58  PAGE 5
+
+
+  C:0D28H         LINE#         90
+  C:0D28H         LINE#         91
+  C:0D2AH         LINE#         92
+  C:0D2AH         LINE#         93
+  C:0D2BH         LINE#         94
+  C:0D2DH         LINE#         95
+  C:0D2FH         LINE#         96
+  -------         ENDPROC       INT_T0
+  -------         PROC          _COMP_THTL
+  D:0007H         SYMBOL        f
+  -------         DO            
+  D:0010H         SYMBOL        Period
+  D:0014H         SYMBOL        Timer_tic
+  -------         ENDDO         
+  C:0B6BH         LINE#         98
+  C:0B6BH         LINE#         99
+  C:0B6BH         LINE#         101
+  C:0B95H         LINE#         102
+  C:0BC4H         LINE#         103
+  C:0BE8H         LINE#         104
+  C:0C1DH         LINE#         105
+  -------         ENDPROC       _COMP_THTL
+  -------         ENDMOD        LAB
+
+  -------         MODULE        ?C?FPADD
+  C:0807H         PUBLIC        ?C?FPADD
+  C:0803H         PUBLIC        ?C?FPSUB
+  -------         ENDMOD        ?C?FPADD
+
+  -------         MODULE        ?C?FPMUL
+  C:08F8H         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
+
+  -------         MODULE        ?C?FPDIV
+  C:0A01H         PUBLIC        ?C?FPDIV
+  -------         ENDMOD        ?C?FPDIV
+
+  -------         MODULE        ?C?FCAST
+  C:0AA8H         PUBLIC        ?C?FCASTC
+  C:0AA3H         PUBLIC        ?C?FCASTI
+  C:0A9EH         PUBLIC        ?C?FCASTL
+  -------         ENDMOD        ?C?FCAST
+
+  -------         MODULE        ?C?CASTF
+  C:0ADCH         PUBLIC        ?C?CASTF
+  -------         ENDMOD        ?C?CASTF
+
+  -------         MODULE        ?C?LNEG
+  C:0B5DH         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_COMP_THTL?LAB
+    CALLER1: ?C_C51STARTUP
+    CALLER2: ?PR?INT_UART?LAB
+
+******************************************************************************
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/22/2018  11:23:58  PAGE 6
+
+
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 019CH BYTE (20%) *
+******************************************************************************
+
+Program Size: data=30.0 xdata=0 code=1416
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)
